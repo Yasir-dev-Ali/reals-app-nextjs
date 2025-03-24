@@ -1,4 +1,11 @@
-import  mongoose    from "mongoose";
+import  mongoose, { model, models }  from "mongoose";
+
+
+export const   Vedio_Dimensions = {
+    width: 1080,
+    height: 720,
+    quailty: 1920
+}   
 
 export  interface   IVedio{
     title: string,
@@ -7,7 +14,12 @@ export  interface   IVedio{
     thumbnail: string,
     videoUrl: string,
     controls?: boolean,
-    transformations?: widthVedio,
+    transformations:{
+        width: number,
+        height: number,
+        quailty?: number
+
+    },
     _id: mongoose.Types.ObjectId,
     createdAt?: Date,
     updatedAt?: Date,
@@ -18,6 +30,7 @@ export interface widthVedio{
     quailty:number,
     createdAt?: Date,
     updatedAt?: Date,
+    
 
 }  
 const   vedioSchema = new mongoose.Schema<IVedio>({
@@ -46,11 +59,17 @@ const   vedioSchema = new mongoose.Schema<IVedio>({
         default: true
     },
     transformations: {
-        type: Object,
-        default: {
-            width: 1080,
-            height: 720,
-            quailty: 80
+        height: {
+            type: Number,
+            default: Vedio_Dimensions.height
+        },
+        width: {
+            type: Number,
+            default: Vedio_Dimensions.width
+        },
+        quailty: {
+            type: Number,
+            default: Vedio_Dimensions.quailty
         }
     }
 
@@ -58,6 +77,6 @@ const   vedioSchema = new mongoose.Schema<IVedio>({
     timestamps: true
 });
 
-const Vedio = mongoose.models.Vedio || mongoose.model<IVedio>("Vedio", vedioSchema);
+const Vedio =models?.Vedio || model<IVedio>('Vedio', vedioSchema);
 
 export default Vedio;
